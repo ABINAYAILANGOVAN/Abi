@@ -1,0 +1,37 @@
+document.addEventListener("DOMContentLoaded", () => {
+    const gameBoard = document.getElementById('game-board');
+    const timeLeft = document.getElementById('time-left');
+    let timer = 60;
+    let timerInterval;
+
+    // Initialize game board
+    for (let i = 0; i < 64; i++) {
+        const cell = document.createElement('div');
+        cell.dataset.index = i;
+        gameBoard.appendChild(cell);
+    }
+
+    // Start timer
+    function startTimer() {
+        timerInterval = setInterval(() => {
+            timer--;
+            timeLeft.textContent = timer;
+            if (timer === 0) {
+                clearInterval(timerInterval);
+                alert('Time up! Player X wins!');
+            }
+        }, 1000);
+    }
+
+    // Pause, resume, and reset functionality
+    document.getElementById('pause').addEventListener('click', () => clearInterval(timerInterval));
+    document.getElementById('resume').addEventListener('click', startTimer);
+    document.getElementById('reset').addEventListener('click', () => {
+        clearInterval(timerInterval);
+        timer = 60;
+        timeLeft.textContent = timer;
+        startTimer();
+    });
+
+    startTimer();
+});
